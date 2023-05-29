@@ -3,51 +3,65 @@
 
 import random
 
-# create
+# create a function to ask the right question based on inputs
 def ask(question):
-    if question == date:
-        date = input('Enter company launch date: ')
-        return date
-    elif question == color:
-        color = input('Enter favorite color: ')
-        return color
-    elif question == pet:
-        pet = input('Enter favorite pet breed: ')
-        return pet
-    elif question == planet:
-        planet = input('Enter a random planet name you like: ')
-        return planet
-    elif question == city:
-        city = input('Enter favorite city: ')
-        return city
-    elif question == movie:
-        movie = input('Enter best movie: ')
-        return movie
-    elif question == sport_team:
-        sport_team = input('Enter favorite sport\'s team: ')
-        return sport_team
-    elif question == mother:
-        mother = input('Enter mother\'s name: ')
-        return mother
+    if question == 'date':
+        result = input('Enter company launch date: ')
+    elif question == 'color':
+        result = input('Enter favorite color: ')
+    elif question == 'pet':
+        result = input('Enter favorite pet breed: ')
+    elif question == 'planet':
+        result = input('Enter a random planet name you like: ')
+    elif question == 'city':
+        result = input('Enter favorite city: ')
+    elif question == 'movie':
+        result = input('Enter best movie: ')
+    elif question == 'sport_team':
+        result = input('Enter favorite sport\'s team: ')
+    elif question == 'mother':
+        result = input('Enter mother\'s name: ')
     else:
         return
-       
     
+    return result  
 
-choose = [date, color, pet, planet, city, movie, sport_team, mother]
+    
+# a list of questions
+choose = ['date', 'color', 'pet', 'planet', 'city', 'movie', 'sport_team', 'mother']
 
+# choose a random question
 choose_rand = random.choice(choose)
 
+# initalize the question array to accept 3 random questions
 question = []
 
-while len(question < 3):
-    choose_rand
+# populate the question array with 3 distinct questions
+while len(question) < 4:
+    choose_rand = random.choice(choose)
     if choose_rand not in question:
         question.append(choose_rand)
         
 left = random.choice(question)
 question.remove(left)
-right = random.choice(question)
 
+middle = random.choice(question)
+question.remove(middle)
+
+right = question[0]
+
+
+answer1 = ask(left)
+answer2 = ask(middle)
+answer3 = ask(right)
+
+brand_name = [answer1, answer2, answer3]
+
+side_1 = random.choice(brand_name)
+brand_name.remove(side_1)
+
+side_2 = random.choice(brand_name)
+
+print(f'Your beer brand name is:\n {side_1} {side_2}')
 
 
