@@ -41,27 +41,23 @@ while len(question) < 4:
     choose_rand = random.choice(choose)
     if choose_rand not in question:
         question.append(choose_rand)
-        
-left = random.choice(question)
-question.remove(left)
+    
+# get user inputs for those questions and store them
+answer1 = ask(question[0])
+answer2 = ask(question[1])
+answer3 = ask(question[2])
 
-middle = random.choice(question)
-question.remove(middle)
-
-right = question[0]
-
-
-answer1 = ask(left)
-answer2 = ask(middle)
-answer3 = ask(right)
-
+# store the answers into an array
 brand_name = [answer1, answer2, answer3]
 
+# randomly choose an answer from the array
 side_1 = random.choice(brand_name)
+# remove the chosen answer to prevent random.choice() from choosing it again
 brand_name.remove(side_1)
-
+# choose second answer randomly
 side_2 = random.choice(brand_name)
 
+# display chosen answers
 print(f'Your beer brand name is:\n {side_1} {side_2}')
 
 
