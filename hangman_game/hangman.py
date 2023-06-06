@@ -8,5 +8,22 @@
 
 # START
 # import the raw words txt file
-with open('words.txt', 'r') as file:
-    contents = file.read()
+with open("C:/Users/Ayomide/Desktop/Development/Python/Python_refresh/hangman_game/words.txt", "r") as file:
+    lines = file.read().split('\n')
+
+words = set()
+for line in lines:
+    # remove words that contains special char or number
+    if line.isalpha():
+        # remove white space
+        word = line.strip()
+        
+        #prevent empty lines
+        if word:
+            words.add(word)
+
+
+print("WELCOME TO HANGMAN GAME😇")
+print("Rules are as Follows\nYou'll be given a word with missing letters\nYour task is to guess the letters correctly")
+print("*******************************")
+
