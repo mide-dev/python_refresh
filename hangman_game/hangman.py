@@ -7,3 +7,6 @@
 # user also has 6 life to guess words in each stage
 
 # START
+# import the raw words txt file
+with open('words.txt', 'r') as file:
+    contents = file.read()
