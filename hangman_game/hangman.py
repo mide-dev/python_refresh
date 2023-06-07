@@ -18,20 +18,29 @@ for line in lines:
             words_list.add(word)
 
 
-def hangman():
-    # Set default variables
-    user_life = 6
-    high_score = 0
+# *******************************************************
 
-    # Game welcome screen
-    print("WELCOME TO HANGMAN GAME😇")
-    print("Rules are as Follows.\nYou'll be given a word with missing letters.\nYour task is to guess the letters correctly\nin 6 tries or you loose")
-    print("*******************************")
-    print("\n")
-
-
-
-def generate_secret_word(word_difficulty = range(3,5)):
+# generate next word for player to guess
+def generate_secret_word(player_level):
+    word_difficulty = range(3,5)
+    
+    # word difficulty
+    if player_level > 6 and player_level < 12:
+        word_difficulty = range(3, 6)
+        
+    if player_level > 12 and player_level < 25:
+        word_difficulty = range(3, 8)
+    
+    if player_level > 25 and player_level < 40:
+        word_difficulty = range(4, 9)
+        
+    if player_level > 40 and player_level < 70:
+        word_difficulty = range(4, 10)
+        
+    if player_level > 70:
+        word_difficulty = range(5, 12)
+    
+    
     # function to select random word with specified length
     secret_word = next(word for word in words_list if len(word) in word_difficulty)
 
@@ -40,29 +49,18 @@ def generate_secret_word(word_difficulty = range(3,5)):
     words_list.discard(secret_word)
     
     return secret_word
-
-secret_word = 'Good'
-
-
-
-
-# a dict that holds every letter in secret word
-# and count their number of occurence
-secret_dict = {}
-for char in secret_word:
-    if char in secret_dict:
-        secret_dict[char] += 1
-    else:
-        secret_dict[char] = 1
-
-
+          
+    
+# function to hide parts of the word
 def hide_word_parts(secret_word):
     # convert secret word into a list to randomly
     # select parts to hide
     secret_list = list(secret_word)
 
-    # determine how many letters to hide
-    no_of_hidden_letters = round(len(secret_word)/2)
+    if len(secret_list) == 3:
+        no_of_hidden_letters = 2
+    else: 
+        no_of_hidden_letters = round(len(secret_word)/2)
 
     # randomly select and hide the letters
     prev_index = None
@@ -77,20 +75,61 @@ def hide_word_parts(secret_word):
         
         secret_list[hidden_index] = "_"
     
-    return secret_list
+    return " ".join(secret_list)
 
 
+# display word to the player
+def display_next_word(secret_word):
+    print(f"Guess the following word: \n{hide_word_parts(secret_word)}")
 
 
-print(secret_list)
+# determine if guess is right or wrong
+def player_guess(secret_word, displayed_word):
+    
+    # a dict that holds every letter in secret word
+    # and count their number of occurence
+    secret_dict = {}
+    for char in secret_word:
+        if char in secret_dict:
+            secret_dict[char] += 1
+        else:
+            secret_dict[char] = 1
+    
+    # verify player guess
+
+# collect player input
+def player_input():
+    player_input = '-1'
+    while not player_input.isalpha():
+        player_input = input("Enter Your Next Guess: ").lower()
+    return player_input
+
+# main game
+def hangman():
+    # Set default variables
+    user_life = 6
+    player_level = 0
+
+    # Game welcome screen
+    print("*******************************")
+    print("WELCOME TO HANGMAN GAME😇")
+    print("Rules are as Follows.\nYou'll be given a word with missing letters.\nYour task is to guess the letters correctly\nin 6 tries or you loose")
+    print("*******************************")
+    print("\n")
+    
+    # generate the next word
+    secret_word = generate_secret_word(player_level)
+    
+    # display generated word with hidden parts
+    display_next_word(secret_word)
+    
+    player_input()
+    
+    
+        
     
 
-
-
-# choose a random word with specific length range
-# delete the word from list
-# randomly hide 50% of the selected word char
-# if user guess right, reveal their guess
+hangman()
 
 
 
