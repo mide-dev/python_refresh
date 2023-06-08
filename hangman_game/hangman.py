@@ -157,7 +157,7 @@ def hangman():
     while game_on:   
         if player_input_verify:
             if '_' not in player_input_verify:
-                print("You Guessed the Word Correctly 🎉")
+                print("You Guessed the Word Correctly ✅✅✅🎉")
                 print(f'{secret_word} 🎯')
                 print("*********************************")
                 player_level += 1
@@ -194,10 +194,7 @@ def hangman():
                 print("Wrong Guess ❌")
                 print(f'Remaining Tries: {user_life}')
                 player_inp = player_input()
-                player_input_verify = player_guess(secret_word, secret_list ,secret_dict, player_inp)
-
-            
-        
+                player_input_verify = player_guess(secret_word, secret_list ,secret_dict, player_inp)  
     
 
 hangman()
