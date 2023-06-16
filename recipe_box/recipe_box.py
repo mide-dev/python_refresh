@@ -7,10 +7,10 @@ class RecipeBox:
         # path
         __path = "C:/Users/Ayomide/Desktop/Development/Python/Python_refresh/recipe_box/Recipes"
         # convert path type
-        self.__recipe_dir = Path(__path)
+        __recipe_dir = Path(__path)
         # count how many recipe files available in recipe dir and sub-dir
         __recipe_count = 0
-        for recipe in list(self.__recipe_dir.glob('**/*.txt')):
+        for recipe in list(__recipe_dir.glob('**/*.txt')):
             __recipe_count += 1
         
         #welcome user
@@ -22,7 +22,7 @@ class RecipeBox:
               
               Your Recipes are located at:
                
-              {self.__recipe_dir}
+              {__recipe_dir}
               
               There are {__recipe_count} total recipes
               
@@ -32,23 +32,33 @@ class RecipeBox:
         # remove whitespace space and print
         print(textwrap.dedent(welcome_str))
         
-        # create a list of menu options
-        menu_options =  ('read recipe', 'create recipe', 'create category', 'delete recipe', 'exit')
-        # print out the list for user
-        for index, option in enumerate(menu_options):
-            print(f'{option} - {index + 1}')
+        # list of menu options
+        menu_options =  ['read recipe', 'create recipe', 'create category', 'delete recipe', 'exit']
+        # list of categories in directory
+        categories = [category.name for category in __recipe_dir.iterdir() if category.is_dir()]
+        # print user options
+        self.print_options(menu_options)
+        # accept user input to pick an option
+        user_choice = self.select_option(menu_options)
         
-        self.select_menu_option()
+        # 
+        if user_choice == 1:
+            pass
         
-    # return user choice to select a menu option  
-    def select_menu_option(self, menu_options: list) -> int:
-        select_menu_option = None
-        while select_menu_option not in range(len(menu_options) + 1):
-            select_menu_option = int(input('Choose one of the Options: '))
-        return select_menu_option             
+    # func to print user options  
+    def print_options(self, options:list) -> None:
+        # print out list for user
+        for index, choice in enumerate(options):
+            print(f'{choice} - {index + 1}')
         
-    
-    def choose_category(self, category):
+    def select_option(self, options:list) -> int:
+        option = None
+        while option not in range(len(options) + 1):
+            option = int(input('Choose one of the Options: '))
+        return option             
+        
+    # func to return a folder
+    def choose_category(self, categories: list) -> Path:
         # goes into the folders and select a cat
         # returns a folder with list of recipe
         pass
