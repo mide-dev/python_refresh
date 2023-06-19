@@ -42,8 +42,15 @@ class RecipeBox:
         # if user wants to read a recipe
         if user_menu_choice == 1:
             print('\nChoose Category of recipe to read')
+            # navigate to user recipe category
             user_category_choice = self.navigate_directory(__recipe_dir)
-            print(user_category_choice)
+            print('\nChoose recipe to read')
+            # navigate to user recipe
+            user_recipe_choice = self.navigate_directory(user_category_choice)
+            # Open the file in read mode
+            with open(user_recipe_choice, 'r') as file:
+                # Read the contents of the file
+                print(f'\n{file.read()}\n')
             
                     
             
@@ -65,7 +72,7 @@ class RecipeBox:
     # func to return a folder path
     def navigate_directory(self, base_directory:Path) -> Path:
         # store all folder name in base_dir as a list
-        all_folders =  [item.name for item in base_directory.iterdir() if item.is_dir()]
+        all_folders =  [item.name for item in base_directory.iterdir()]
         # print all available folder name for user to choose from
         self.print_options(all_folders)
         # accept input on what folder user needs to access
