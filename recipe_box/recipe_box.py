@@ -37,16 +37,16 @@ class RecipeBox:
         # print user options
         self._print_options(_menu_options)
         # accept user input to pick an option
-        user_menu_choice = self.select_option(_menu_options)
+        user_menu_choice = self._select_option(_menu_options)
         
         # if user wants to read a recipe
         if user_menu_choice == 1:
             print('\nChoose Category of recipe to read')
             # navigate to user recipe category
-            user_category_choice = self.navigate_directory(_recipe_dir)
+            user_category_choice = self._navigate_directory(_recipe_dir)
             print('\nChoose recipe to read')
             # navigate to user recipe
-            user_recipe_choice = self.navigate_directory(user_category_choice)
+            user_recipe_choice = self._navigate_directory(user_category_choice)
             # Open the file in read mode
             with open(user_recipe_choice, 'r') as file:
                 # Read the contents of the file
@@ -54,7 +54,7 @@ class RecipeBox:
         # let user create new recipe
         if user_menu_choice == 2:
             print('\nChoose Category to create recipe in')
-            recipe_category = self.navigate_directory(_recipe_dir)
+            recipe_category = self._navigate_directory(_recipe_dir)
             # check if chosen option is a valid folder
             if recipe_category.is_dir():
                 # collect recipe name from user
@@ -71,8 +71,16 @@ class RecipeBox:
                 with open(new_recipe_path, 'w') as new_recipe:
                     new_recipe.write(recipe_content)
                 print('SUCCESS🎉 - Recipe Created')
-                
-                    
+        # let user create new recipe category
+        if user_menu_choice == 3:
+            category_name = input('\nEnter Category Name: ')
+            new_category_path = Path(f'{_recipe_dir}/{category_name}')
+            while new_category_path.exists():
+                    print('\Category already exists')
+                    category_name = input('Type new Category name: ')
+            new_category_path.mkdir(parents=True, exist_ok=True)
+            print('SUCCESS🎉 - Folder Created')
+         
             
             
         
@@ -83,20 +91,20 @@ class RecipeBox:
             print(f'{choice} - {index + 1}')
     
     # return user choice 
-    def select_option(self, options:list) -> int:
+    def _select_option(self, options:list) -> int:
         option = None
         while option not in range(len(options) + 1):
             option = int(input('Choose one of the Options: '))
         return option             
         
     # func to return a path
-    def navigate_directory(self, base_directory:Path) -> Path:
+    def _navigate_directory(self, base_directory:Path) -> Path:
         # store all folder/file name in base_dir as a list
         all_folders =  [item.name for item in base_directory.iterdir()]
         # print all available folder name for user to choose from
         self._print_options(all_folders)
         # accept input on what folder user needs to access
-        user_choice = self.select_option(all_folders)
+        user_choice = self._select_option(all_folders)
         # if folder name is same as user choice
         # return new path
         for index, category in enumerate(all_folders):
