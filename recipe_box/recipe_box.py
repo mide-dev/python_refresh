@@ -24,41 +24,48 @@ class RecipeBox:
               
               There are {_recipe_count} total recipes
               
-              Input a number to select menu option
-              ____________________________________ 
               """)
         # remove whitespace space and print
         print(textwrap.dedent(_welcome_str))
         
-        # list of menu options
-        _menu_options =  ['read recipe', 'create recipe', 'create category', 'delete recipe', 'delete category', 'exit']
-        # list of categories in directory
-        # categories = [category.name for category in __recipe_dir.iterdir() if category.is_dir()]
-        # print user options
-        self._print_options(_menu_options)
-        # accept user input to pick an option
-        user_menu_choice = self._select_option(_menu_options)
+        # display main menu for the app
+        user_menu_choice = self.display_main_menu()
         
-        # let user read recipe
-        if user_menu_choice == 1:
-            pass
+        _exit_program = False
+        while not _exit_program:  
+            # let user read recipe
+            if user_menu_choice == 1:
+                self.read_recipe(_recipe_dir)
+                # go back to main menu
+                user_menu_choice = self.display_main_menu()
+
+            # let user create new recipe
+            if user_menu_choice == 2:
+                self.create_recipe(_recipe_dir)
+                # go back to main menu
+                user_menu_choice = self.display_main_menu()
         
-        # let user create new recipe
-        if user_menu_choice == 2:
-            pass
-       
-        # let user create new recipe category
-        if user_menu_choice == 3:
-            pass
-       
-        # let user delete recipes
-        if user_menu_choice == 4:
-            pass
-       
-        # let user delete category
-        if user_menu_choice == 5:
-            pass
+            # let user create new recipe category
+            if user_menu_choice == 3:
+                self.create_category(_recipe_dir)
+                # go back to main menu
+                user_menu_choice = self.display_main_menu()
+        
+            # let user delete recipes
+            if user_menu_choice == 4:
+                self.delete_recipe(_recipe_dir)
+                # go back to main menu
+                user_menu_choice = self.display_main_menu()
+        
+            # let user delete category
+            if user_menu_choice == 5:
+                self.delete_category(_recipe_dir)
+                # go back to main menu
+                user_menu_choice = self.display_main_menu()
             
+            # break out of the program
+            if user_menu_choice == 6:
+                _exit_program = True
             
         
     # print user options  
@@ -87,6 +94,17 @@ class RecipeBox:
         for index, category in enumerate(all_folders):
             if index + 1 == user_choice:
                 return Path(f'{base_directory}\{all_folders[index]}')
+            
+    def display_main_menu(self):
+        print('Input a number to select menu option')
+        print('____________________________________ ')
+        # list of menu options
+        _menu_options =  ['read recipe', 'create recipe', 'create category', 'delete recipe', 'delete category', 'exit']
+        # print user options
+        self._print_options(_menu_options)
+        # accept user input to pick an option
+        user_menu_choice = self._select_option(_menu_options)
+        return user_menu_choice
     
     def read_recipe(self, recipe_path:Path) -> None:
         # if user wants to read a recipe
@@ -96,10 +114,12 @@ class RecipeBox:
         print('\nChoose recipe to read')
         # navigate to user recipe
         user_recipe_choice = self._navigate_directory(user_category_choice)
+        print('*****************************')
         # Open the file in read mode
         with open(user_recipe_choice, 'r') as file:
             # Read the contents of the file
             print(f'\n{file.read()}\n')
+        print('*****************************')
     
     def create_recipe(self, recipe_path:Path) -> None:
         print('\nChoose Category to create recipe in')
@@ -119,7 +139,9 @@ class RecipeBox:
             # create new recipe file and write content to it
             with open(new_recipe_path, 'w') as new_recipe:
                 new_recipe.write(recipe_content)
+            print('*****************************')
             print('SUCCESS🎉 - Recipe Created')
+            print('*****************************')
     
     def create_category(self, category_path:Path) -> None:
         category_name = input('\nEnter Category Name: ')
@@ -128,7 +150,9 @@ class RecipeBox:
             print('\Category already exists')
             category_name = input('Type new Category name: ')
         new_category_path.mkdir(parents=True, exist_ok=True)
+        print('*****************************')
         print('SUCCESS🎉 - Folder Created')
+        print('*****************************')
     
     def delete_recipe(self, recipe_path:Path) -> None:
         # locate the recipe to delete
@@ -136,7 +160,9 @@ class RecipeBox:
         recipe_to_delete = self._navigate_directory(category_to_delete_from)
         # delete the file
         recipe_to_delete.unlink()
+        print('*****************************')
         print('SUCCESS🎉 - Recipe Deleted')
+        print('*****************************')
     
     def delete_category(self, category_path:Path) -> Path:
         # choose directory to delete
@@ -148,11 +174,9 @@ class RecipeBox:
                 item.unlink()
         # delete the directory itself
         category_to_delete.rmdir()
+        print('*****************************')
         print('SUCCESS🎉 - Category Deleted')
-    
-    def exit_program(self):
-        # break out of the whole loop
-        pass
+        print('*****************************')
    
    
    
